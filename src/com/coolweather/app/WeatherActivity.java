@@ -33,13 +33,9 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	 */
 	private TextView weatherDespText;
 	/**
-	 * 用于显示气温1
+	 * 用于显示气温
 	 */
 	private TextView temp1Text;
-	/**
-	 * 用于显示气温2
-	 */
-	private TextView temp2Text;
 	/**
 	 * 用于显示当前时间
 	 */
@@ -61,10 +57,9 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		//初始化各种控件
 		weatherInfoLayout = (LinearLayout) findViewById(R.id.weather_info_layout);
 		cityNameText = (TextView) findViewById(R.id.city_name);
-		publishText = (TextView) findViewById(R.id.publish_text);
 		weatherDespText = (TextView) findViewById(R.id.weather_desp);
 		temp1Text = (TextView) findViewById(R.id.temp1);
-		temp2Text = (TextView) findViewById(R.id.temp2);
+		publishText = (TextView) findViewById(R.id.pubilsh_time);
 		currentDateText = (TextView) findViewById(R.id.current_date);
 		String countyCode = getIntent().getStringExtra("county_code");
 		if(!TextUtils.isEmpty(countyCode)){
@@ -157,7 +152,7 @@ public class WeatherActivity extends Activity implements OnClickListener {
 	 * 查询天气代号所对应的天气
 	 */
 	protected void queryWeatherInfo(String weatherCode) {
-		String address = "http://www.weather.com.cn/data/cityinfo/" + weatherCode +".html";
+		String address = "http://weather.51wnl.com/weatherinfo/GetMoreWeather?cityCode=" + weatherCode +"&weatherType=0";
 		queryFromServer(address, "weatherCode");
 	}
 
@@ -168,10 +163,9 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		cityNameText.setText(prefs.getString("city_name", ""));
 		temp1Text.setText(prefs.getString("temp1", ""));
-		temp2Text.setText(prefs.getString("temp2", ""));
 		weatherDespText.setText(prefs.getString("weather_desp", ""));
-		publishText.setText("今天" + prefs.getString("publish_time", "") + "发布");
 		currentDateText.setText(prefs.getString("current_date", ""));
+		publishText.setText("同步成功，已经是最新版");
 		weatherInfoLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
 		Intent intent = new Intent(this, AutoUpdateService.class);
